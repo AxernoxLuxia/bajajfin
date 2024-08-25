@@ -1,6 +1,10 @@
 import express from "express";
+import path from "path";
+
 const app = express();
 const port = 3000;
+
+const __dirname = path.resolve();
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -33,6 +37,12 @@ app.post("/bfhl", (req, res) => {
         alphabets: alphabets,
         highest_lowercase_alphabet: [highestLowercase || []],
     });
+});
+
+app.use(express.static(path.join(__dirname, "dist")));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // GET method for /bfhl
